@@ -27,6 +27,10 @@ qt_add_qml_module(appCID
         HMI/Settings.qml
         Components/StatusBar.qml
         Components/LeftNav.qml
+        Components/ACFunctionTab.qml
+        Components/ACTemperatureWheel.qml
+        Components/ACFanSlider.qml
+        Components/ACControlBar.qml
 
     SOURCES
         Interface/Interface.h

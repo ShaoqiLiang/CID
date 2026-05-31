@@ -21,10 +21,10 @@ Item {
         Repeater {
             model: ListModel {
                 ListElement { name: "Home"; icon: "qrc:/Images/Home/home.png"; page: 1 }
-                ListElement { name: "地图"; icon: "qrc:/Images/Home/map.png"; page: 2 }
-                ListElement { name: "音乐"; icon: "qrc:/Images/Home/music.png"; page: 3 }
-                ListElement { name: "空调"; icon: "qrc:/Images/ACBar/fan.png"; page: 4 }
-                ListElement { name: "设置"; icon: "qrc:/Images/Home/rotation.png"; page: 5 }
+                ListElement { name: "空调"; icon: "qrc:/Images/ACBar/fan.png"; page: 2 }
+                ListElement { name: "应用"; icon: "qrc:/Images/Home/app.png"; page: 3 }
+                ListElement { name: "设置"; icon: "qrc:/Images/Home/rotation.png"; page: 4 }
+                ListElement { name: "控制"; icon: "qrc:/Images/Home/menu.png"; page: 5 }
             }
 
             delegate: Item {
