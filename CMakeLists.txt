@@ -25,6 +25,8 @@ qt_add_qml_module(appCID
         HMI/ControlCenter.qml
         HMI/Home.qml
         HMI/Settings.qml
+        Components/StatusBar.qml
+        Components/LeftNav.qml
 
     SOURCES
         Interface/Interface.h

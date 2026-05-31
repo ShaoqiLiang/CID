@@ -9,6 +9,7 @@ CLAUDE.md
 # ========== Qt 构建输出 ==========
 # 构建目录（你项目中的 build 文件夹）
 build/
+build_msvc/
 *-build/
 build-*/
 debug/
