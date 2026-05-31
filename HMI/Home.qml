@@ -192,6 +192,7 @@ Item {
 
                             MouseArea {
                                 anchors.fill: parent
+                                z: 10
                                 onClicked: console.log("导航: " + modelData)
                             }
                         }
