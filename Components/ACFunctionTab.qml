@@ -1,12 +1,13 @@
 import QtQuick
 
 // 空调顶部功能 Tab 栏
+// Figma: 882×70, 背景 #2B354B, 圆角 43, 字号 24px, 字重 500
 Item {
     id: root
 
     property var tabs: ["空调", "通风加热", "滤净", "空调设置"]
     property int currentIndex: 0
-    property string backgroundColor: "#2B364B"
+    property string backgroundColor: "#2B354B"
     property string selectedStartColor: "#43FFFF"
     property string selectedEndColor: "#0978E9"
 
@@ -50,7 +51,9 @@ Item {
                     anchors.centerIn: parent
                     text: root.tabs[index]
                     color: "white"
-                    font.pixelSize: 20
+                    font.family: "PingFang SC"
+                    font.pixelSize: 24
+                    font.weight: Font.Medium
                     font.bold: root.currentIndex === index
                 }
 

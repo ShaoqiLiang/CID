@@ -2,23 +2,9 @@ import QtQuick
 import QtQuick.Controls
 
 // 空调底部控制栏
+// Figma: 1305×123, 背景 #222A3B, 温度 Montserrat 46px #FFFFFF
 Item {
     id: root
-
-    // 按钮定义
-    property var buttons: [
-        { icon: "qrc:/Images/ACBar/model.png",     label: "模式",     width: 72 },
-        { icon: "qrc:/Images/ACBar/fan.png",        label: "风量",     width: 72 },
-        { icon: "qrc:/Images/ACBar/arrow_up.png",   label: "左温+",    width: 50, type: "leftUp" },
-        { icon: "",                                  label: "左温",     width: 80, type: "leftTemp" },
-        { icon: "qrc:/Images/ACBar/arrow_down.png", label: "左温-",    width: 50, type: "leftDown" },
-        { icon: "qrc:/Images/ACBar/blow.png",       label: "吹风",     width: 82, type: "blow" },
-        { icon: "qrc:/Images/ACBar/arrow_up.png",   label: "右温+",    width: 50, type: "rightUp" },
-        { icon: "",                                  label: "右温",     width: 80, type: "rightTemp" },
-        { icon: "qrc:/Images/ACBar/arrow_down.png", label: "右温-",    width: 50, type: "rightDown" },
-        { icon: "qrc:/Images/ACBar/defrost.png",    label: "除霜",     width: 72 },
-        { icon: "qrc:/Images/ACBar/contact.png",    label: "同步",     width: 72 }
-    ]
 
     signal modeClicked()
     signal fanClicked()
@@ -26,34 +12,30 @@ Item {
     signal defrostClicked()
     signal contactClicked()
 
-    // 背景
-    Image {
+    // 背景 - 纯色替代图片
+    Rectangle {
         anchors.fill: parent
-        source: "qrc:/Images/Home/ac_background.png"
-        fillMode: Image.PreserveAspectFit
+        color: "#222A3B"
+        radius: 8
     }
 
     Row {
         anchors.fill: parent
-        anchors.leftMargin: 30
-        anchors.rightMargin: 30
+        anchors.leftMargin: 20
+        anchors.rightMargin: 20
         spacing: 0
 
         // 模式
         ACBarButton {
             iconSource: "qrc:/Images/ACBar/model.png"
-            label: "模式"
-            buttonSize: 72
             iconSize: 48
             height: parent.height
             onClicked: root.modeClicked()
         }
 
-        // 风量
+        // 风扇
         ACBarButton {
             iconSource: "qrc:/Images/ACBar/fan.png"
-            label: "风量"
-            buttonSize: 72
             iconSize: 35
             height: parent.height
             onClicked: root.fanClicked()
@@ -62,8 +44,8 @@ Item {
         // 左温度加
         ACBarButton {
             iconSource: "qrc:/Images/ACBar/arrow_up.png"
-            buttonSize: 50
             iconSize: 30
+            btnWidth: 50
             height: parent.height
             enabled: ui.acLeftTemp < 32
             onClicked: {
@@ -73,7 +55,7 @@ Item {
 
         // 左温度显示
         Item {
-            width: 80
+            width: 150
             height: parent.height
 
             Row {
@@ -82,12 +64,14 @@ Item {
                 Text {
                     text: Math.round(ui.acLeftTemp)
                     color: "white"
+                    font.family: "Montserrat"
                     font.pixelSize: 46
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Text {
-                    text: "°"
+                    text: "º"
                     color: "#9AFFFFFF"
+                    font.family: "Montserrat"
                     font.pixelSize: 46
                     anchors.verticalCenter: parent.verticalCenter
                 }
@@ -97,8 +81,8 @@ Item {
         // 左温度减
         ACBarButton {
             iconSource: "qrc:/Images/ACBar/arrow_down.png"
-            buttonSize: 50
             iconSize: 30
+            btnWidth: 50
             height: parent.height
             enabled: ui.acLeftTemp > 16
             onClicked: {
@@ -111,32 +95,25 @@ Item {
             width: 100
             height: parent.height
 
-            Rectangle {
-                width: 82; height: 82
+            Image {
                 anchors.centerIn: parent
-                radius: 41
-                color: blowMouse.pressed ? "#40FFFFFF" : "transparent"
+                source: "qrc:/Images/ACBar/blow.png"
+                width: 82; height: 82
+                opacity: blowMouse.pressed ? 0.6 : 1.0
+            }
 
-                Image {
-                    anchors.centerIn: parent
-                    source: "qrc:/Images/ACBar/blow.png"
-                    width: 60; height: 60
-                    opacity: blowMouse.pressed ? 0.6 : 1.0
-                }
-
-                MouseArea {
-                    id: blowMouse
-                    anchors.fill: parent
-                    onClicked: root.blowClicked()
-                }
+            MouseArea {
+                id: blowMouse
+                anchors.fill: parent
+                onClicked: root.blowClicked()
             }
         }
 
         // 右温度加
         ACBarButton {
             iconSource: "qrc:/Images/ACBar/arrow_up.png"
-            buttonSize: 50
             iconSize: 30
+            btnWidth: 50
             height: parent.height
             enabled: ui.acRightTemp < 32
             onClicked: {
@@ -146,7 +123,7 @@ Item {
 
         // 右温度显示
         Item {
-            width: 80
+            width: 150
             height: parent.height
 
             Row {
@@ -155,12 +132,14 @@ Item {
                 Text {
                     text: Math.round(ui.acRightTemp)
                     color: "white"
+                    font.family: "Montserrat"
                     font.pixelSize: 46
                     anchors.verticalCenter: parent.verticalCenter
                 }
                 Text {
-                    text: "°"
+                    text: "º"
                     color: "#9AFFFFFF"
+                    font.family: "Montserrat"
                     font.pixelSize: 46
                     anchors.verticalCenter: parent.verticalCenter
                 }
@@ -170,8 +149,8 @@ Item {
         // 右温度减
         ACBarButton {
             iconSource: "qrc:/Images/ACBar/arrow_down.png"
-            buttonSize: 50
             iconSize: 30
+            btnWidth: 50
             height: parent.height
             enabled: ui.acRightTemp > 16
             onClicked: {
@@ -182,8 +161,6 @@ Item {
         // 除霜
         ACBarButton {
             iconSource: "qrc:/Images/ACBar/defrost.png"
-            label: "除霜"
-            buttonSize: 72
             iconSize: 48
             height: parent.height
             onClicked: {
@@ -195,8 +172,6 @@ Item {
         // 同步
         ACBarButton {
             iconSource: "qrc:/Images/ACBar/contact.png"
-            label: "同步"
-            buttonSize: 72
             iconSize: 42
             height: parent.height
             onClicked: {
@@ -209,42 +184,45 @@ Item {
     // 内部按钮组件
     component ACBarButton: Item {
         property string iconSource: ""
-        property string label: ""
-        property int buttonSize: 72
         property int iconSize: 48
+        property int btnWidth: 72
         property bool enabled: true
 
         signal clicked()
 
-        width: buttonSize
+        width: btnWidth
 
-        Button {
-            width: parent.buttonSize
-            height: parent.buttonSize
+        Rectangle {
+            width: parent.btnWidth
+            height: parent.btnWidth
             anchors.centerIn: parent
-            hoverEnabled: false
-            enabled: parent.enabled
+            radius: width / 2
+            color: btnMouse.pressed ? "#40FFFFFF" : "transparent"
+            visible: parent.enabled
 
-            background: Image {
+            Image {
+                anchors.centerIn: parent
+                source: parent.parent.iconSource
                 width: parent.parent.iconSize
                 height: parent.parent.iconSize
-                anchors.centerIn: parent
-                source: parent.parent.parent.iconSource
-                fillMode: Image.PreserveAspectFit
-                opacity: parent.enabled ? (parent.down ? 0.6 : 1.0) : 0.3
+                opacity: btnMouse.pressed ? 0.6 : 1.0
             }
 
-            onClicked: parent.clicked()
+            MouseArea {
+                id: btnMouse
+                anchors.fill: parent
+                onClicked: parent.parent.clicked()
+            }
         }
 
-        Text {
-            visible: parent.label !== ""
-            text: parent.label
-            color: "white"
-            font.pixelSize: 12
-            anchors.horizontalCenter: parent.horizontalCenter
-            anchors.bottom: parent.bottom
-            anchors.bottomMargin: 2
+        // 禁用态
+        Image {
+            visible: !parent.enabled
+            anchors.centerIn: parent
+            source: parent.iconSource
+            width: parent.iconSize
+            height: parent.iconSize
+            opacity: 0.3
         }
     }
 }

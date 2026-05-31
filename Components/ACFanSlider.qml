@@ -1,6 +1,9 @@
 import QtQuick
+import QtQuick.Controls
 
 // 风量滑块组件
+// Figma: 723×71, 圆角 36, 背景 #222A3B
+// 进度条: 蓝→青渐变
 Item {
     id: root
 
@@ -9,7 +12,7 @@ Item {
     property int value: 3
     property string startColor: "#0532FB"
     property string endColor: "#52E6FB"
-    property string backgroundColor: "#80000000"
+    property string backgroundColor: "#222A3B"
 
     // 背景
     Rectangle {
@@ -36,9 +39,9 @@ Item {
             }
 
             function getWidth() {
-                var step = bgRect.width / (root.maxValue + 1)
+                if (root.maxValue === 0) return 0
+                var step = bgRect.width / root.maxValue
                 var w = root.value * step
-                if (root.value === root.maxValue) w = bgRect.width
                 return Math.min(w, bgRect.width)
             }
         }
@@ -47,7 +50,7 @@ Item {
         MouseArea {
             anchors.fill: parent
             onClicked: (mouse) => {
-                var step = bgRect.width / (root.maxValue + 1)
+                var step = bgRect.width / root.maxValue
                 var newValue = Math.round(mouse.x / step)
                 newValue = Math.max(root.minValue, Math.min(root.maxValue, newValue))
                 root.value = newValue

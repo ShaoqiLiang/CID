@@ -7,32 +7,31 @@ Item {
     height: parent ? parent.height : 808
 
     // 背景
-    Image {
+    Rectangle {
         anchors.fill: parent
-        source: "qrc:/Images/Home/background.png"
+        color: "#0E141D"
+    }
+
+    // 车内饰图
+    Image {
+        width: parent.width
+        height: parent.height - 130
+        anchors.top: parent.top
+        source: "qrc:/Images/AC/inner.png"
         fillMode: Image.PreserveAspectFit
 
-        // 车内饰图
+        // 垂直遮罩
         Image {
-            width: parent.width
-            height: parent.height - 170
-            anchors.top: parent.top
-            source: "qrc:/Images/AC/inner.png"
+            anchors.fill: parent
+            source: "qrc:/Images/AC/mask_v.png"
             fillMode: Image.PreserveAspectFit
+        }
 
-            // 垂直遮罩
-            Image {
-                anchors.fill: parent
-                source: "qrc:/Images/AC/mask_v.png"
-                fillMode: Image.PreserveAspectFit
-            }
-
-            // 水平遮罩
-            Image {
-                anchors.fill: parent
-                source: "qrc:/Images/AC/mask_h.png"
-                fillMode: Image.PreserveAspectFit
-            }
+        // 水平遮罩
+        Image {
+            anchors.fill: parent
+            source: "qrc:/Images/AC/mask_h.png"
+            fillMode: Image.PreserveAspectFit
         }
     }
 
@@ -49,25 +48,27 @@ Item {
     Component.onCompleted: fadeIn.start()
 
     // ==================== 顶部功能 Tab ====================
+    // Figma: 882×70, 居中, 顶部偏移约 57px
     ACFunctionTab {
         id: functionTab
-        width: 600
-        height: 56
+        width: 882
+        height: 70
         anchors.top: parent.top
-        anchors.topMargin: 20
+        anchors.topMargin: 57
         anchors.horizontalCenter: parent.horizontalCenter
         tabs: ["空调", "通风加热", "滤净", "空调设置"]
     }
 
     // ==================== 左区温度背景 ====================
+    // Figma: 272×511, x=46, y=158
     Image {
         id: leftTempBg
-        width: 200
-        height: 420
+        width: 272
+        height: 511
         anchors.left: parent.left
-        anchors.leftMargin: 40
+        anchors.leftMargin: 46
         anchors.top: parent.top
-        anchors.topMargin: 100
+        anchors.topMargin: 158
         source: "qrc:/Images/AC/left_temperatur_background.png"
         fillMode: Image.PreserveAspectFit
     }
@@ -75,12 +76,12 @@ Item {
     // ==================== 左区温度滚轮 ====================
     ACTemperatureWheel {
         id: leftTempWheel
-        width: 120
-        height: 420
+        width: 160
+        height: 511
         anchors.left: parent.left
-        anchors.leftMargin: 40
+        anchors.leftMargin: 46
         anchors.top: parent.top
-        anchors.topMargin: 100
+        anchors.topMargin: 158
         temperature: ui.acLeftTemp
         direction: 0
         currentTextColor: "#04FAFB"
@@ -91,14 +92,15 @@ Item {
     }
 
     // ==================== 右区温度背景 ====================
+    // Figma: 272×511, x=1047, y=158
     Image {
         id: rightTempBg
-        width: 200
-        height: 420
+        width: 272
+        height: 511
         anchors.right: parent.right
-        anchors.rightMargin: 40
+        anchors.rightMargin: 46
         anchors.top: parent.top
-        anchors.topMargin: 100
+        anchors.topMargin: 158
         source: "qrc:/Images/AC/right_temperatur_background.png"
         fillMode: Image.PreserveAspectFit
     }
@@ -106,12 +108,12 @@ Item {
     // ==================== 右区温度滚轮 ====================
     ACTemperatureWheel {
         id: rightTempWheel
-        width: 120
-        height: 420
+        width: 160
+        height: 511
         anchors.right: parent.right
-        anchors.rightMargin: 40
+        anchors.rightMargin: 46
         anchors.top: parent.top
-        anchors.topMargin: 100
+        anchors.topMargin: 158
         temperature: ui.acRightTemp
         direction: 1
         currentTextColor: "#04FAFB"
@@ -122,27 +124,31 @@ Item {
     }
 
     // ==================== 负离子按钮 ====================
+    // Figma: 97×97, #3D4D64, PingFang SC 18px
     Item {
         id: anionBtn
         width: 97; height: 97
         anchors.left: parent.left
-        anchors.leftMargin: 200
+        anchors.leftMargin: 250
         anchors.top: parent.top
-        anchors.topMargin: 300
+        anchors.topMargin: 368
 
         property bool active: true
 
-        Image {
+        Rectangle {
             anchors.fill: parent
-            source: parent.parent.active ? "qrc:/Images/AC/function_on.png" : "qrc:/Images/AC/function_off.png"
-            fillMode: Image.PreserveAspectFit
+            radius: width / 2
+            color: anionBtn.active ? "#3D4D64" : "#2A2A3A"
             opacity: anionMouse.pressed ? 0.6 : 1.0
+
+            Behavior on color { ColorAnimation { duration: 200 } }
         }
 
         Text {
             anchors.centerIn: parent
             text: "负离子"
             color: "white"
+            font.family: "PingFang SC"
             font.pixelSize: 18
         }
 
@@ -154,27 +160,31 @@ Item {
     }
 
     // ==================== 香薰按钮 ====================
+    // Figma: 97×97, #3D4D64, PingFang SC 18px
     Item {
         id: fragranceBtn
         width: 97; height: 97
         anchors.right: parent.right
-        anchors.rightMargin: 200
+        anchors.rightMargin: 250
         anchors.top: parent.top
-        anchors.topMargin: 300
+        anchors.topMargin: 368
 
         property bool active: true
 
-        Image {
+        Rectangle {
             anchors.fill: parent
-            source: parent.parent.active ? "qrc:/Images/AC/function_on.png" : "qrc:/Images/AC/function_off.png"
-            fillMode: Image.PreserveAspectFit
+            radius: width / 2
+            color: fragranceBtn.active ? "#3D4D64" : "#2A2A3A"
             opacity: fragranceMouse.pressed ? 0.6 : 1.0
+
+            Behavior on color { ColorAnimation { duration: 200 } }
         }
 
         Text {
             anchors.centerIn: parent
             text: "香薰"
             color: "white"
+            font.family: "PingFang SC"
             font.pixelSize: 18
         }
 
@@ -185,68 +195,27 @@ Item {
         }
     }
 
-    // ==================== 中间风向可视化区域 ====================
-    Item {
-        id: windArea
-        anchors.left: parent.left
-        anchors.leftMargin: 250
-        anchors.right: parent.right
-        anchors.rightMargin: 250
-        anchors.top: parent.top
-        anchors.topMargin: 120
-        height: 350
-
-        // 风向指示 - 吹面
-        Image {
-            anchors.centerIn: parent
-            anchors.verticalCenterOffset: -40
-            source: "qrc:/Images/AC/arrow_up.png"
-            width: 60; height: 60
-            opacity: ui.acMode === 0 || ui.acMode === 2 ? 0.8 : 0.2
-
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-        }
-
-        // 风向指示 - 吹脚
-        Image {
-            anchors.centerIn: parent
-            anchors.verticalCenterOffset: 40
-            source: "qrc:/Images/AC/arrow_down.png"
-            width: 60; height: 60
-            opacity: ui.acMode === 1 || ui.acMode === 2 ? 0.8 : 0.2
-
-            Behavior on opacity { NumberAnimation { duration: 200 } }
-        }
-
-        // 风速指示
-        Text {
-            anchors.centerIn: parent
-            text: "风速: " + ui.acFanSpeed + "/7"
-            color: "#80FFFFFF"
-            font.pixelSize: 16
-        }
-    }
-
     // ==================== 风量滑块弹窗 ====================
+    // Figma: 723×71, 圆角 36, #222A3B
     Item {
         id: fanPopup
         anchors.centerIn: parent
-        width: 500
-        height: 80
+        width: 723
+        height: 71
         visible: false
         z: 10
 
         Rectangle {
             anchors.fill: parent
             color: "#CC222A3B"
-            radius: height / 2
+            radius: 36
         }
 
         // 减按钮
         Item {
             width: 50; height: 50
             anchors.left: parent.left
-            anchors.leftMargin: 15
+            anchors.leftMargin: 20
             anchors.verticalCenter: parent.verticalCenter
 
             Image {
@@ -269,9 +238,9 @@ Item {
         // 滑块
         ACFanSlider {
             anchors.left: parent.left
-            anchors.leftMargin: 70
+            anchors.leftMargin: 75
             anchors.right: parent.right
-            anchors.rightMargin: 70
+            anchors.rightMargin: 75
             anchors.verticalCenter: parent.verticalCenter
             height: 19
             value: ui.acFanSpeed
@@ -287,7 +256,7 @@ Item {
         Item {
             width: 50; height: 50
             anchors.right: parent.right
-            anchors.rightMargin: 15
+            anchors.rightMargin: 20
             anchors.verticalCenter: parent.verticalCenter
 
             Image {
@@ -316,10 +285,11 @@ Item {
     }
 
     // ==================== 底部控制栏 ====================
+    // Figma: 1305×123, #222A3B
     ACControlBar {
         id: controlBar
-        width: parent.width - 80
-        height: 120
+        width: 1305
+        height: 123
         anchors.bottom: parent.bottom
         anchors.bottomMargin: 0
         anchors.horizontalCenter: parent.horizontalCenter
@@ -330,7 +300,6 @@ Item {
         }
 
         onModeClicked: {
-            // 循环切换吹风模式: 0-吹面 1-吹脚 2-吹面+脚
             ui.acMode = (ui.acMode + 1) % 3
         }
 

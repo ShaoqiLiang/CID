@@ -1,6 +1,8 @@
 import QtQuick
 
 // 温度滚轮选择器
+// Figma: 272×511, 字体 PingFang SC 500
+// 选中 38px #04FAFB, 偏移1: 36px #DFDFDF 0.6, 偏移2: 28px 0.5, 偏移3+: 22px 0.3
 Item {
     id: root
 
@@ -9,8 +11,6 @@ Item {
     property int maxTemp: 32
     property string currentTextColor: "#04FAFB"
     property string otherTextColor: "#DFDFDF"
-    property int fontPixelSize: 38
-    property bool fontBold: true
     property int direction: 0   // 0-左对齐  1-右对齐
 
     readonly property var temperatureText: ["32°", "31°", "30°", "29°", "28°", "27°", "26°", "25°", "24°",
@@ -43,8 +43,9 @@ Item {
                 id: tempLabel
                 text: getTemperature()
                 color: getColor()
+                font.family: "PingFang SC"
+                font.weight: Font.Medium
                 font.pixelSize: getFontSize()
-                font.bold: root.fontBold
                 width: parent.width
                 height: parent.height
                 topPadding: 5
@@ -75,12 +76,12 @@ Item {
                 }
 
                 function getFontSize() {
-                    if (ListView.isCurrentItem) return root.fontPixelSize
+                    if (ListView.isCurrentItem) return 38
                     var offset = Math.abs(listView.currentIndex - index)
                     switch(offset) {
                         case 1: return 36
                         case 2: return 28
-                        default: return 20
+                        default: return 22
                     }
                 }
 
@@ -90,7 +91,7 @@ Item {
 
                 function getColor() {
                     return ListView.isCurrentItem ? root.currentTextColor :
-                           (listView.moving ? Qt.rgba(0.52, 0.98, 0.99, 0.5) : root.otherTextColor)
+                           (listView.moving ? Qt.rgba(0.87, 0.87, 0.87, 0.5) : root.otherTextColor)
                 }
             }
         }
@@ -98,7 +99,6 @@ Item {
         onMovementEnded: {
             var temp = getTempFromIndex(currentIndex)
             root.temperature = temp
-            root.temperatureChanged(temp)
         }
     }
 
