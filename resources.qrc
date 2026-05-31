@@ -130,5 +130,7 @@
         <file>Images/StatusBar/position.png</file>
         <file>Images/StatusBar/signal.png</file>
         <file>Images/StatusBar/status_bar_background.png</file>
+        <file>Images/Home/map2.png</file>
+        <file>Images/Home/music2.png</file>
     </qresource>
 </RCC>
