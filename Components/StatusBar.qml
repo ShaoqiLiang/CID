@@ -67,12 +67,47 @@ Item {
         }
     }
 
-    // 右侧天气
+    // 右侧区域：消息通知 + 天气
     Row {
         anchors.right: parent.right
         anchors.rightMargin: 20
         anchors.verticalCenter: parent.verticalCenter
-        spacing: 8
+        spacing: 16
+
+        // 消息通知图标
+        Item {
+            width: 32; height: 32
+            anchors.verticalCenter: parent.verticalCenter
+
+            Image {
+                anchors.centerIn: parent
+                source: "qrc:/Images/Home/message.png"
+                width: 24; height: 24
+                opacity: messageMouse.containsMouse ? 1.0 : 0.8
+            }
+
+            // 未读消息红点
+            Rectangle {
+                anchors.top: parent.top
+                anchors.right: parent.right
+                anchors.topMargin: 2
+                anchors.rightMargin: 2
+                width: 8; height: 8
+                radius: 4
+                color: "#F85149"
+                visible: true // 后续绑定消息状态
+            }
+
+            MouseArea {
+                id: messageMouse
+                anchors.fill: parent
+                hoverEnabled: true
+                onClicked: {
+                    // TODO: 打开消息列表
+                    console.log("消息通知点击")
+                }
+            }
+        }
 
         // 天气图标
         Image {

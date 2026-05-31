@@ -20,6 +20,28 @@ Window {
         source: "qrc:/Images/Home/base.png"
     }
 
+    // 预定义页面组件
+    Component {
+        id: homePage
+        Home {}
+    }
+    Component {
+        id: acPage
+        AC {}
+    }
+    Component {
+        id: appPage
+        App {}
+    }
+    Component {
+        id: settingsPage
+        Settings {}
+    }
+    Component {
+        id: controlPage
+        ControlCenter {}
+    }
+
     // 主布局
     Column {
         anchors.fill: parent
@@ -60,27 +82,27 @@ Window {
     onPageIndexChanged: {
         switch(pageIndex) {
         case ui.PAGE_HOME:
-            pageLoader.source = "HMI/Home.qml"
+            pageLoader.sourceComponent = homePage
             break;
         case ui.PAGE_AC:
-            pageLoader.source = "HMI/AC.qml"
+            pageLoader.sourceComponent = acPage
             break;
         case ui.PAGE_APP:
-            pageLoader.source = "HMI/App.qml"
+            pageLoader.sourceComponent = appPage
             break;
         case ui.PAGE_SETTINGS:
-            pageLoader.source = "HMI/Settings.qml"
+            pageLoader.sourceComponent = settingsPage
             break;
         case ui.PAGE_CONTROL:
-            pageLoader.source = "HMI/ControlCenter.qml"
+            pageLoader.sourceComponent = controlPage
             break;
         default:
-            pageLoader.source = "HMI/Home.qml"
+            pageLoader.sourceComponent = homePage
             break;
         }
     }
 
     Component.onCompleted: {
-        pageLoader.source = "HMI/Home.qml"
+        pageLoader.sourceComponent = homePage
     }
 }
