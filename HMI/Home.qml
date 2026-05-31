@@ -8,58 +8,91 @@ Item {
     // 背景
     Rectangle {
         anchors.fill: parent
-        color: "#0D1117"
+        color: "#0E141D"
     }
 
     // ==================== ⑥ 语音助手（顶部居中） ====================
+    // Figma: 444×120, 圆角, #1A1E2E
     Item {
         id: voiceAssistant
         anchors.top: parent.top
-        anchors.horizontalCenter: parent.horizontalCenter
         anchors.topMargin: 12
-        width: 180
-        height: 48
+        anchors.horizontalCenter: parent.horizontalCenter
+        width: 444
+        height: 120
 
         Rectangle {
             anchors.fill: parent
-            radius: 24
-            color: "#161B22"
-            border.color: "#30363D"
-            border.width: 1
+            radius: 16
+            color: "#1A1E2E"
         }
 
-        Row {
-            anchors.centerIn: parent
-            spacing: 10
+        Column {
+            anchors.left: parent.left
+            anchors.leftMargin: 24
+            anchors.verticalCenter: parent.verticalCenter
+            spacing: 8
 
-            // 麦克风图标
-            Image {
-                source: "qrc:/Images/Home/voice_assistant.png"
-                width: 28; height: 28
-                anchors.verticalCenter: parent.verticalCenter
+            Text {
+                text: "你可以这样说："
+                color: "white"
+                font.family: "PingFang SC"
+                font.pixelSize: 16
+                font.weight: Font.Medium
             }
 
             Text {
-                text: "语音助手"
+                text: "小迪去公司迪路况怎么样？"
                 color: "white"
-                font.pixelSize: 16
-                anchors.verticalCenter: parent.verticalCenter
+                font.family: "PingFang SC"
+                font.pixelSize: 18
             }
         }
 
-        MouseArea {
-            anchors.fill: parent
-            hoverEnabled: true
-            onPressed: parent.scale = 0.95
-            onReleased: parent.scale = 1.0
-            onClicked: {
-                // TODO: 启动语音助手
-                console.log("语音助手启动")
-            }
-        }
+        // 麦克风按钮
+        Rectangle {
+            width: 86; height: 86
+            radius: 43
+            anchors.right: parent.right
+            anchors.rightMargin: 24
+            anchors.verticalCenter: parent.verticalCenter
+            color: "#1A1E2E"
+            border.color: "#2A2E3E"
+            border.width: 2
 
-        Behavior on scale {
-            NumberAnimation { duration: 100 }
+            // 彩色圆点装饰
+            Repeater {
+                model: ListModel {
+                    ListElement { cx: 0; cy: -22; dotColor: "#F7AB52" }
+                    ListElement { cx: 22; cy: 0; dotColor: "#52F763" }
+                    ListElement { cx: 0; cy: 22; dotColor: "#6BB8FF" }
+                    ListElement { cx: -22; cy: 0; dotColor: "#FF6B6B" }
+                }
+
+                Rectangle {
+                    width: 12; height: 12
+                    radius: 6
+                    x: parent.width / 2 + cx - 6
+                    y: parent.height / 2 + cy - 6
+                    color: dotColor
+                }
+            }
+
+            // 麦克风图标
+            Image {
+                anchors.centerIn: parent
+                source: "qrc:/Images/Home/voice_assistant.png"
+                width: 36; height: 36
+            }
+
+            MouseArea {
+                anchors.fill: parent
+                onPressed: parent.scale = 0.9
+                onReleased: parent.scale = 1.0
+                onClicked: console.log("语音助手启动")
+            }
+
+            Behavior on scale { NumberAnimation { duration: 100 } }
         }
     }
 
@@ -70,7 +103,7 @@ Item {
         anchors.right: parent.right
         anchors.bottom: parent.bottom
         anchors.margins: 16
-        anchors.topMargin: 12
+        anchors.topMargin: 16
         spacing: 16
 
         // ==================== 左侧区域 ====================
@@ -80,194 +113,238 @@ Item {
             spacing: 16
 
             // ==================== ⑤ 地图导航 ====================
+            // Figma: 309×386, 蓝色渐变背景 #3360B0
             Item {
                 id: mapArea
                 width: parent.width
-                height: parent.height - weatherACRow.height - 16
+                height: parent.height - weatherRow.height - 16
 
-                // 地图背景
                 Rectangle {
                     anchors.fill: parent
                     radius: 16
-                    color: "#161B22"
+                    color: "#3360B0"
                 }
 
-                // 地图图片
-                Image {
-                    anchors.fill: parent
-                    anchors.margins: 8
-                    source: "qrc:/Images/Home/map2.png"
-                    fillMode: Image.PreserveAspectCrop
-                    opacity: 0.8
+                // 地图装饰圆形
+                Rectangle {
+                    anchors.centerIn: parent
+                    width: 150; height: 150
+                    radius: 75
+                    color: "#48B7E3"
+                    opacity: 0.4
                 }
 
-                // // 地图内部装饰
-                // Image {
-                //     anchors.centerIn: parent
-                //     source: "qrc:/Images/Home/map_inner.png"
-                //     opacity: 0.6
-                // }
+                Rectangle {
+                    anchors.centerIn: parent
+                    anchors.horizontalCenterOffset: -40
+                    width: 100; height: 100
+                    radius: 50
+                    color: "#2881D6"
+                    opacity: 0.5
+                }
+
+                // 地图图标和名称
+                Column {
+                    anchors.top: parent.top
+                    anchors.left: parent.left
+                    anchors.margins: 16
+                    spacing: 8
+
+                    Row {
+                        spacing: 8
+                        Image {
+                            width: 28; height: 28
+                            source: "qrc:/Images/Home/map.png"
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                        Text {
+                            text: "高德地图"
+                            color: "white"
+                            font.family: "PingFang SC"
+                            font.pixelSize: 14
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                    }
+                }
+
+                // 导航快捷入口
+                Row {
+                    anchors.bottom: parent.bottom
+                    anchors.left: parent.left
+                    anchors.margins: 16
+                    spacing: 12
+
+                    Repeater {
+                        model: ["回家", "去公司", "充电站"]
+
+                        Rectangle {
+                            width: 80; height: 32
+                            radius: 16
+                            color: "#40FFFFFF"
+
+                            Text {
+                                anchors.centerIn: parent
+                                text: modelData
+                                color: "white"
+                                font.family: "PingFang SC"
+                                font.pixelSize: 14
+                            }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: console.log("导航: " + modelData)
+                            }
+                        }
+                    }
+                }
 
                 // 导航信息卡片（左上角）
                 Rectangle {
                     anchors.top: parent.top
-                    anchors.left: parent.left
+                    anchors.right: parent.right
                     anchors.margins: 16
-                    width: 260
-                    height: 140
+                    width: 240
+                    height: 100
                     radius: 12
-                    color: "#1E2430"
-                    opacity: 0.95
+                    color: "#CC1A1E2E"
 
                     Column {
                         anchors.fill: parent
-                        anchors.margins: 16
-                        spacing: 12
+                        anchors.margins: 12
+                        spacing: 8
 
-                        // 目的地
                         Row {
-                            spacing: 10
+                            spacing: 8
                             Image {
-                                width: 24; height: 24
+                                width: 20; height: 20
                                 source: "qrc:/Images/Home/map_home.png"
                                 anchors.verticalCenter: parent.verticalCenter
                             }
-                            Column {
-                                Text {
-                                    text: "目的地"
-                                    color: "#8B949E"
-                                    font.pixelSize: 12
-                                }
-                                Text {
-                                    text: ui.navDestination !== "" ? ui.navDestination : "未设置导航"
-                                    color: "white"
-                                    font.pixelSize: 16
-                                    font.bold: true
-                                }
+                            Text {
+                                text: ui.navDestination !== "" ? ui.navDestination : "未设置导航"
+                                color: "white"
+                                font.family: "PingFang SC"
+                                font.pixelSize: 14
+                                font.weight: Font.Medium
+                                anchors.verticalCenter: parent.verticalCenter
                             }
                         }
 
-                        // 分隔线
-                        Rectangle {
-                            width: parent.width
-                            height: 1
-                            color: "#30363D"
-                        }
+                        Rectangle { width: parent.width; height: 1; color: "#30363D" }
 
-                        // 距离和时间
                         Row {
-                            spacing: 30
+                            spacing: 24
 
                             Column {
-                                Text {
-                                    text: "距离"
-                                    color: "#8B949E"
-                                    font.pixelSize: 11
-                                }
+                                Text { text: "距离"; color: "#8B949E"; font.pixelSize: 11 }
                                 Text {
                                     text: ui.navActive ? ui.navDistance.toFixed(1) + " km" : "--"
-                                    color: "white"
-                                    font.pixelSize: 16
-                                    font.bold: true
+                                    color: "white"; font.pixelSize: 14; font.bold: true
                                 }
                             }
 
                             Column {
-                                Text {
-                                    text: "预计到达"
-                                    color: "#8B949E"
-                                    font.pixelSize: 11
-                                }
+                                Text { text: "预计到达"; color: "#8B949E"; font.pixelSize: 11 }
                                 Text {
                                     text: ui.navActive ? ui.navEta : "--:--"
-                                    color: "white"
-                                    font.pixelSize: 16
-                                    font.bold: true
+                                    color: "white"; font.pixelSize: 14; font.bold: true
                                 }
                             }
                         }
                     }
                 }
-
-                // 地图标记点
-                Image {
-                    anchors.centerIn: parent
-                    anchors.verticalCenterOffset: -20
-                    source: "qrc:/Images/Home/map_ellipse.png"
-                    width: 48; height: 48
-                }
-
-                // // 充电站标记
-                // Image {
-                //     anchors.centerIn: parent
-                //     anchors.horizontalCenterOffset: 80
-                //     anchors.verticalCenterOffset: 40
-                //     source: "qrc:/Images/Home/map_charging_station.png"
-                //     width: 32; height: 32
-                // }
             }
 
             // ==================== ③ 天气 + ④ AC快捷 ====================
+            // Figma: 天气 627×120
             Row {
-                id: weatherACRow
+                id: weatherRow
                 width: parent.width
-                height: 180
+                height: 120
                 spacing: 16
 
                 // 天气卡片
                 Rectangle {
-                    width: (parent.width - 16) / 2
+                    width: (parent.width - 16) * 0.6
                     height: parent.height
                     radius: 16
                     color: "#161B22"
 
-                    Image {
+                    Row {
                         anchors.fill: parent
-                        source: "qrc:/Images/Home/weather_background.png"
-                        fillMode: Image.PreserveAspectCrop
-                        opacity: 0.3
-                    }
+                        anchors.margins: 16
+                        spacing: 16
 
-                    Column {
-                        anchors.centerIn: parent
-                        spacing: 8
-
+                        // 天气图标
                         Image {
                             source: "qrc:/Images/Home/Weather/sun_clouds.png"
-                            width: 56; height: 56
-                            anchors.horizontalCenter: parent.horizontalCenter
+                            width: 64; height: 64
+                            anchors.verticalCenter: parent.verticalCenter
                         }
 
-                        Text {
-                            text: ui.weatherTemp + "°C"
-                            color: "white"
-                            font.pixelSize: 28
-                            font.bold: true
-                            anchors.horizontalCenter: parent.horizontalCenter
-                        }
+                        // 天气信息
+                        Column {
+                            anchors.verticalCenter: parent.verticalCenter
+                            spacing: 4
 
-                        Text {
-                            text: ui.weatherDesc !== "" ? ui.weatherDesc : "晴转多云"
-                            color: "#8B949E"
-                            font.pixelSize: 13
-                            anchors.horizontalCenter: parent.horizontalCenter
+                            Text {
+                                text: "南京市 雨花台区"
+                                color: "white"
+                                font.family: "PingFang SC"
+                                font.pixelSize: 18
+                                font.weight: Font.Medium
+                            }
+
+                            Text {
+                                text: "晴转多云"
+                                color: "white"
+                                font.family: "PingFang SC"
+                                font.pixelSize: 18
+                            }
+
+                            Row {
+                                spacing: 16
+                                Text {
+                                    text: "车内 " + ui.weatherTemp + "°"
+                                    color: "white"
+                                    font.family: "PingFang SC"
+                                    font.pixelSize: 18
+                                }
+                                Text {
+                                    text: "车外 12°"
+                                    color: "white"
+                                    font.family: "PingFang SC"
+                                    font.pixelSize: 18
+                                }
+                            }
+
+                            Row {
+                                spacing: 8
+                                Text {
+                                    text: "空气质量"
+                                    color: "white"
+                                    font.family: "PingFang SC"
+                                    font.pixelSize: 18
+                                    font.weight: Font.Medium
+                                }
+                                Text {
+                                    text: "优"
+                                    color: "#2D7B87"
+                                    font.family: "PingFang SC"
+                                    font.pixelSize: 18
+                                    font.weight: Font.Medium
+                                }
+                            }
                         }
                     }
                 }
 
                 // AC 快捷控制
                 Rectangle {
-                    width: (parent.width - 16) / 2
+                    width: (parent.width - 16) * 0.4
                     height: parent.height
                     radius: 16
                     color: "#161B22"
-
-                    Image {
-                        anchors.fill: parent
-                        source: "qrc:/Images/Home/ac_background.png"
-                        fillMode: Image.PreserveAspectCrop
-                        opacity: 0.3
-                    }
 
                     Column {
                         anchors.centerIn: parent
@@ -276,84 +353,57 @@ Item {
                         Text {
                             text: "空调"
                             color: "#8B949E"
+                            font.family: "PingFang SC"
                             font.pixelSize: 13
                             anchors.horizontalCenter: parent.horizontalCenter
                         }
 
-                        // 温度显示
                         Text {
                             text: ui.acLeftTemp.toFixed(1) + "°C"
                             color: "white"
-                            font.pixelSize: 32
+                            font.family: "Montserrat"
+                            font.pixelSize: 28
                             font.bold: true
                             anchors.horizontalCenter: parent.horizontalCenter
                         }
 
-                        // 加减按钮
                         Row {
                             spacing: 24
                             anchors.horizontalCenter: parent.horizontalCenter
 
                             // 减
                             Rectangle {
-                                id: acSubBtn
-                                width: 36; height: 36
-                                radius: 18
+                                width: 36; height: 36; radius: 18
                                 color: subMouse.pressed ? "#3D5AFE" : (subMouse.containsMouse ? "#2A2A4A" : "#21262D")
                                 scale: subMouse.pressed ? 0.85 : 1.0
-
                                 Behavior on color { ColorAnimation { duration: 120 } }
                                 Behavior on scale { NumberAnimation { duration: 100 } }
 
-                                Text {
-                                    anchors.centerIn: parent
-                                    text: "−"
-                                    color: "white"
-                                    font.pixelSize: 20
-                                }
+                                Text { anchors.centerIn: parent; text: "−"; color: "white"; font.pixelSize: 20 }
 
                                 MouseArea {
-                                    id: subMouse
-                                    anchors.fill: parent
-                                    hoverEnabled: true
-                                    onClicked: {
-                                        if (ui.acLeftTemp > 16.0)
-                                            ui.acLeftTemp = ui.acLeftTemp - 0.5
-                                    }
+                                    id: subMouse; anchors.fill: parent; hoverEnabled: true
+                                    onClicked: { if (ui.acLeftTemp > 16.0) ui.acLeftTemp = ui.acLeftTemp - 0.5 }
                                 }
                             }
 
                             // 加
                             Rectangle {
-                                id: acAddBtn
-                                width: 36; height: 36
-                                radius: 18
+                                width: 36; height: 36; radius: 18
                                 color: addMouse.pressed ? "#3D5AFE" : (addMouse.containsMouse ? "#2A2A4A" : "#21262D")
                                 scale: addMouse.pressed ? 0.85 : 1.0
-
                                 Behavior on color { ColorAnimation { duration: 120 } }
                                 Behavior on scale { NumberAnimation { duration: 100 } }
 
-                                Text {
-                                    anchors.centerIn: parent
-                                    text: "+"
-                                    color: "white"
-                                    font.pixelSize: 20
-                                }
+                                Text { anchors.centerIn: parent; text: "+"; color: "white"; font.pixelSize: 20 }
 
                                 MouseArea {
-                                    id: addMouse
-                                    anchors.fill: parent
-                                    hoverEnabled: true
-                                    onClicked: {
-                                        if (ui.acLeftTemp < 32.0)
-                                            ui.acLeftTemp = ui.acLeftTemp + 0.5
-                                    }
+                                    id: addMouse; anchors.fill: parent; hoverEnabled: true
+                                    onClicked: { if (ui.acLeftTemp < 32.0) ui.acLeftTemp = ui.acLeftTemp + 0.5 }
                                 }
                             }
                         }
 
-                        // 空调状态
                         Text {
                             text: ui.acOn ? "运行中" : "已关闭"
                             color: ui.acOn ? "#3FB950" : "#8B949E"
@@ -371,145 +421,12 @@ Item {
             height: parent.height
             spacing: 16
 
-            // ==================== ② 车辆状态卡片 ====================
+            // ==================== ② 车辆状态 ====================
+            // Figma: 642×176, "8500 km", "245 km", "已安全陪伴您 267 天", "车辆状况良好"
             Rectangle {
                 id: vehicleStatus
                 width: parent.width
-                height: parent.height * 0.70
-                radius: 16
-                color: "#161B22"
-
-                Row {
-                    anchors.fill: parent
-                    anchors.margins: 16
-                    spacing: 12
-
-                    // 车辆图标
-                    Rectangle {
-                        width: 100
-                        height: width
-                        radius: 12
-                        color: "#1E2430"
-                        anchors.verticalCenter: parent.verticalCenter
-
-                        Image {
-                            anchors.centerIn: parent
-                            source: ui.vehicleCondition === 1 ? "qrc:/Images/Home/vehicle_condition_good.png" : "qrc:/Images/Home/vehicle_condition.png"
-                            width: 60; height: 60
-                        }
-                    }
-
-                    // 车辆数据
-                    Column {
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: parent.width - 100 - 12
-                        spacing: 12
-
-                        // 车况
-                        Row {
-                            spacing: 8
-                            Image {
-                                source: "qrc:/Images/Home/vehicle_condition_good.png"
-                                width: 20; height: 20
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                            Text {
-                                text: "车况: " + (ui.vehicleCondition === 1 ? "良好" : "需检查")
-                                color: ui.vehicleCondition === 1 ? "#3FB950" : "#F85149"
-                                font.pixelSize: 14
-                                font.bold: true
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                        }
-
-                        // 里程
-                        Row {
-                            spacing: 8
-                            Image {
-                                source: "qrc:/Images/Home/vehicle_mileage.png"
-                                width: 20; height: 20
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                            Text {
-                                text: "总里程: " + ui.vehicleMileage.toFixed(0) + " km"
-                                color: "white"
-                                font.pixelSize: 14
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                        }
-
-                        // 续航
-                        Row {
-                            spacing: 8
-                            Image {
-                                source: "qrc:/Images/Home/miles.png"
-                                width: 20; height: 20
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                            Text {
-                                text: "续航: " + ui.vehicleRange + " km"
-                                color: ui.vehicleRange < 50 ? "#F85149" : "#3FB950"
-                                font.pixelSize: 14
-                                font.bold: true
-                                anchors.verticalCenter: parent.verticalCenter
-                            }
-                        }
-
-                        // 档位 + 车速
-                        Row {
-                            spacing: 20
-
-                            Row {
-                                spacing: 8
-                                Text {
-                                    text: "档位:"
-                                    color: "#8B949E"
-                                    font.pixelSize: 14
-                                    anchors.verticalCenter: parent.verticalCenter
-                                }
-                                Text {
-                                    text: {
-                                        switch(ui.vehicleGear) {
-                                        case 0: return "P"
-                                        case 1: return "R"
-                                        case 2: return "N"
-                                        case 3: return "D"
-                                        default: return "P"
-                                        }
-                                    }
-                                    color: "white"
-                                    font.pixelSize: 18
-                                    font.bold: true
-                                    anchors.verticalCenter: parent.verticalCenter
-                                }
-                            }
-
-                            Row {
-                                spacing: 8
-                                Text {
-                                    text: "车速:"
-                                    color: "#8B949E"
-                                    font.pixelSize: 14
-                                    anchors.verticalCenter: parent.verticalCenter
-                                }
-                                Text {
-                                    text: ui.vehicleSpeed + " km/h"
-                                    color: "white"
-                                    font.pixelSize: 18
-                                    font.bold: true
-                                    anchors.verticalCenter: parent.verticalCenter
-                                }
-                            }
-                        }
-                    }
-                }
-            }
-
-            // ==================== ① 音乐/媒体播放器 ====================
-            Rectangle {
-                id: musicPlayer
-                width: parent.width
-                height: 180
+                height: 176
                 radius: 16
                 color: "#161B22"
 
@@ -518,142 +435,243 @@ Item {
                     anchors.margins: 16
                     spacing: 16
 
-                    // 专辑封面
+                    // 车辆图标
                     Rectangle {
-                        width: 90
-                        height: width
+                        width: 120; height: 120
                         radius: 12
                         color: "#1E2430"
                         anchors.verticalCenter: parent.verticalCenter
 
                         Image {
-                            anchors.fill: parent
-                            anchors.margins: 4
-                            source: ui.mediaAlbumArt !== "" ? ui.mediaAlbumArt : "qrc:/Images/Home/music_album.png"
-                            fillMode: Image.PreserveAspectCrop
+                            anchors.centerIn: parent
+                            source: ui.vehicleCondition === 1 ? "qrc:/Images/Home/vehicle_condition_good.png" : "qrc:/Images/Home/vehicle_condition.png"
+                            width: 80; height: 80
+                        }
+                    }
+
+                    // 车辆数据
+                    Column {
+                        anchors.verticalCenter: parent.verticalCenter
+                        spacing: 10
+
+                        // 里程
+                        Row {
+                            spacing: 8
+                            Text {
+                                text: "总里程"
+                                color: "#8B949E"
+                                font.family: "PingFang SC"
+                                font.pixelSize: 14
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            Text {
+                                text: ui.vehicleMileage.toFixed(0) + " km"
+                                color: "white"
+                                font.family: "PingFang SC"
+                                font.pixelSize: 22
+                                font.weight: Font.DemiBold
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
                         }
 
-                        // 播放状态指示
+                        // 续航
+                        Row {
+                            spacing: 8
+                            Text {
+                                text: "续航"
+                                color: "#8B949E"
+                                font.family: "PingFang SC"
+                                font.pixelSize: 14
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            Text {
+                                text: ui.vehicleRange + " km"
+                                color: ui.vehicleRange < 50 ? "#F85149" : "white"
+                                font.family: "PingFang SC"
+                                font.pixelSize: 22
+                                font.weight: Font.DemiBold
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+
+                        // 安全天数
+                        Text {
+                            text: "已安全陪伴您  267 天"
+                            color: "white"
+                            font.family: "PingFang SC"
+                            font.pixelSize: 14
+                        }
+
+                        // 车况
+                        Row {
+                            spacing: 8
+                            Rectangle {
+                                width: 8; height: 8; radius: 4
+                                color: ui.vehicleCondition === 1 ? "#3FB950" : "#F85149"
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                            Text {
+                                text: "车辆状况良好"
+                                color: "white"
+                                font.family: "PingFang SC"
+                                font.pixelSize: 14
+                                anchors.verticalCenter: parent.verticalCenter
+                            }
+                        }
+                    }
+                }
+            }
+
+            // ==================== ① 音乐/媒体播放器 ====================
+            // Figma: 309×386, "Something Just Like This", "The Chainsmokers", "酷我音乐"
+            Rectangle {
+                id: musicPlayer
+                width: parent.width
+                height: parent.height - vehicleStatus.height - 16
+                radius: 16
+                color: "#161B22"
+
+                Column {
+                    anchors.fill: parent
+                    anchors.margins: 16
+                    spacing: 12
+
+                    // 音源
+                    Row {
+                        spacing: 8
+                        Image {
+                            width: 28; height: 28
+                            source: "qrc:/Images/Home/music.png"
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                        Text {
+                            text: "酷我音乐"
+                            color: "white"
+                            font.family: "PingFang SC"
+                            font.pixelSize: 14
+                            anchors.verticalCenter: parent.verticalCenter
+                        }
+                    }
+
+                    // 专辑封面和信息
+                    Row {
+                        width: parent.width
+                        spacing: 16
+
+                        // 专辑封面
                         Rectangle {
-                            anchors.centerIn: parent
-                            width: 48; height: 48
-                            radius: 24
+                            width: 104; height: 104
+                            radius: 12
+                            color: "#1E2430"
+                            anchors.verticalCenter: parent.verticalCenter
+
+                            Image {
+                                anchors.fill: parent
+                                anchors.margins: 4
+                                source: ui.mediaAlbumArt !== "" ? ui.mediaAlbumArt : "qrc:/Images/Home/music_album.png"
+                                fillMode: Image.PreserveAspectCrop
+                            }
+                        }
+
+                        // 歌曲信息
+                        Column {
+                            anchors.verticalCenter: parent.verticalCenter
+                            spacing: 8
+                            width: parent.width - 104 - 16
+
+                            Text {
+                                text: ui.mediaTitle !== "" ? ui.mediaTitle : "未播放"
+                                color: "white"
+                                font.family: "PingFang SC"
+                                font.pixelSize: 18
+                                font.weight: Font.DemiBold
+                                width: parent.width
+                                elide: Text.ElideRight
+                            }
+
+                            Text {
+                                text: ui.mediaArtist !== "" ? ui.mediaArtist : "未知歌手"
+                                color: "#8B949E"
+                                font.family: "PingFang SC"
+                                font.pixelSize: 16
+                            }
+
+                            // 音源标签
+                            Rectangle {
+                                width: sourceLabel.width + 16; height: 24
+                                radius: 12
+                                color: "#21262D"
+
+                                Text {
+                                    id: sourceLabel
+                                    anchors.centerIn: parent
+                                    text: {
+                                        switch(ui.mediaSource) {
+                                        case 0: return "🔵 蓝牙"
+                                        case 1: return "📻 电台"
+                                        case 2: return "☁️ 在线"
+                                        default: return "🔵 蓝牙"
+                                        }
+                                    }
+                                    color: "#8B949E"
+                                    font.pixelSize: 12
+                                }
+                            }
+                        }
+                    }
+
+                    // 播放控制
+                    Row {
+                        anchors.horizontalCenter: parent.horizontalCenter
+                        spacing: 24
+
+                        // 上一曲
+                        Image {
+                            width: 28; height: 28
+                            source: "qrc:/Images/Home/music_previous.png"
+                            opacity: prevMouse.containsMouse ? 1.0 : 0.7
+                            anchors.verticalCenter: parent.verticalCenter
+
+                            MouseArea { id: prevMouse; anchors.fill: parent; hoverEnabled: true }
+                        }
+
+                        // 播放/暂停
+                        Rectangle {
+                            width: 48; height: 48; radius: 24
                             color: "#3D5AFE"
-                            opacity: ui.mediaPlaying ? 0.9 : 0.7
+                            anchors.verticalCenter: parent.verticalCenter
 
                             Image {
                                 anchors.centerIn: parent
                                 source: "qrc:/Images/Home/music_play.png"
                                 width: 24; height: 24
                             }
+
+                            MouseArea {
+                                anchors.fill: parent
+                                onClicked: ui.mediaPlaying = !ui.mediaPlaying
+                            }
+                        }
+
+                        // 下一曲
+                        Image {
+                            width: 28; height: 28
+                            source: "qrc:/Images/Home/music_next.png"
+                            opacity: nextMouse.containsMouse ? 1.0 : 0.7
+                            anchors.verticalCenter: parent.verticalCenter
+
+                            MouseArea { id: nextMouse; anchors.fill: parent; hoverEnabled: true }
                         }
                     }
 
-                    // 歌曲信息和控制
-                    Column {
-                        anchors.verticalCenter: parent.verticalCenter
-                        width: parent.width - 160 - 16
-                        spacing: 16
+                    // 进度条
+                    Rectangle {
+                        width: parent.width; height: 4; radius: 2
+                        color: "#30363D"
 
-                        // 歌曲名
-                        Text {
-                            text: ui.mediaTitle !== "" ? ui.mediaTitle : "未播放"
-                            color: "white"
-                            font.pixelSize: 22
-                            font.bold: true
-                            width: parent.width
-                            elide: Text.ElideRight
-                        }
-
-                        // 歌手
-                        Text {
-                            text: ui.mediaArtist !== "" ? ui.mediaArtist : "未知歌手"
-                            color: "#8B949E"
-                            font.pixelSize: 15
-                        }
-
-                        // 音源
                         Rectangle {
-                            width: sourceText.width + 16
-                            height: 26
-                            radius: 13
-                            color: "#21262D"
-
-                            Text {
-                                id: sourceText
-                                anchors.centerIn: parent
-                                text: {
-                                    switch(ui.mediaSource) {
-                                    case 0: return "🔵 蓝牙"
-                                    case 1: return "📻 电台"
-                                    case 2: return "☁️ 在线"
-                                    default: return "🔵 蓝牙"
-                                    }
-                                }
-                                color: "#8B949E"
-                                font.pixelSize: 12
-                            }
-                        }
-
-                        // 播放控制按钮
-                        Row {
-                            spacing: 24
-                            anchors.horizontalCenter: parent.horizontalCenter
-
-                            // 上一曲
-                            Image {
-                                width: 36; height: 36
-                                source: "qrc:/Images/Home/music_previous.png"
-                                opacity: prevMouse.containsMouse ? 1.0 : 0.7
-                                anchors.verticalCenter: parent.verticalCenter
-
-                                MouseArea {
-                                    id: prevMouse
-                                    anchors.fill: parent
-                                    hoverEnabled: true
-                                    onClicked: {
-                                        // TODO: 上一曲
-                                    }
-                                }
-                            }
-
-                            // 播放/暂停
-                            Rectangle {
-                                width: 56; height: 56
-                                radius: 28
-                                color: "#3D5AFE"
-                                anchors.verticalCenter: parent.verticalCenter
-
-                                Image {
-                                    anchors.centerIn: parent
-                                    source: "qrc:/Images/Home/music_play.png"
-                                    width: 28; height: 28
-                                }
-
-                                MouseArea {
-                                    anchors.fill: parent
-                                    onClicked: {
-                                        ui.mediaPlaying = !ui.mediaPlaying
-                                    }
-                                }
-                            }
-
-                            // 下一曲
-                            Image {
-                                width: 36; height: 36
-                                source: "qrc:/Images/Home/music_next.png"
-                                opacity: nextMouse.containsMouse ? 1.0 : 0.7
-                                anchors.verticalCenter: parent.verticalCenter
-
-                                MouseArea {
-                                    id: nextMouse
-                                    anchors.fill: parent
-                                    hoverEnabled: true
-                                    onClicked: {
-                                        // TODO: 下一曲
-                                    }
-                                }
-                            }
+                            width: parent.width * 0.35; height: parent.height; radius: 2
+                            color: "#3D5AFE"
                         }
                     }
                 }
