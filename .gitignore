@@ -1,0 +1,173 @@
+# Claude
+.claude/
+CLAUDE.md
+
+# doc 文件夹
+/doc/
+/doc/*
+
+# ========== Qt 构建输出 ==========
+# 构建目录（你项目中的 build 文件夹）
+build/
+*-build/
+build-*/
+debug/
+release/
+*.o
+*.obj
+*.exe
+*.dll
+*.so
+*.dylib
+*.a
+*.lib
+*.dylib
+
+# ========== Qt 临时文件 ==========
+# moc 元对象编译器生成的文件
+moc_*.cpp
+moc_*.h
+moc_predefs.h
+
+# ui 头文件
+ui_*.h
+
+# qrc 资源编译器生成的文件
+qrc_*.cpp
+
+# QML 缓存
+*.qmlc
+*.jsc
+.qml_cache/
+.qmake.stash
+
+# ========== Qt Creator IDE ==========
+# 你项目中的 .qtcreator 文件夹
+.qtcreator/
+*.user
+*.user.*
+*.creator.user*
+*.creator.user.*
+*.config
+*.files
+*.includes
+*.stash
+CMakeLists.txt.user*
+CMakeLists.txt.user.*.workspace
+
+# ========== CMake 构建文件 ==========
+# (如果你使用 CMake)
+CMakeCache.txt
+CMakeFiles/
+cmake_install.cmake
+Makefile
+CMakeUserPresets.json
+*.cmake
+!CMakeLists.txt
+!*.cmake.in
+_CPack_Packages/
+
+# ========== qmake 构建文件 ==========
+# (如果你使用 qmake)
+*.pro.user
+*.pro.user.*
+Makefile.*
+object_script.*
+*.prl
+*.vcxproj*
+*.filters
+*.sln
+
+# ========== 编译器和 IDE ==========
+# Visual Studio
+.vs/
+*.suo
+*.userosscache
+*.sln.docstates
+*.vcxproj*
+*.filters
+*.sln
+Debug/
+Release/
+x64/
+x86/
+
+# VS Code
+.vscode/
+*.code-workspace
+
+# CLion
+.idea/
+cmake-build-*/
+
+# ========== 打包和分发文件 ==========
+*.7z
+*.zip
+*.tar
+*.tar.gz
+*.tar.bz2
+*.deb
+*.dmg
+*.rpm
+*.pkg
+*.app
+*.dSYM/
+
+# 安装目录
+install/
+dist/
+packages/
+
+# ========== 系统和临时文件 ==========
+# Windows
+Thumbs.db
+Thumbs.db:encryptable
+ehthumbs.db
+Desktop.ini
+$RECYCLE.BIN/
+*.lnk
+*.tmp
+~$*
+*.bak
+*.swp
+*.swo
+
+# macOS
+.DS_Store
+.AppleDouble
+.LSOverride
+._*
+.Spotlight-V100
+.Trashes
+
+# Linux
+*~
+.directory
+
+# ========== 日志和数据库 ==========
+*.log
+*.sqlite
+*.sqlite3
+*.db
+
+# ========== 你项目特定的文件 ==========
+# 如果你有编译生成的可执行文件在项目根目录
+Vehicula
+Vehicula.exe
+
+# 如果你有测试输出
+test_*.log
+test_results/
+coverage/
+*.gcda
+*.gcno
+*.gcov
+
+# 如果你使用了 conan (C++包管理器)
+conaninfo.txt
+conanbuildinfo.*
+conan_imports_*
+
+# 如果你使用了 vcpkg
+vcpkg_installed/
+vcpkg-manifest-install.log
