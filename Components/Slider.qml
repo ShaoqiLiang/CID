@@ -11,6 +11,9 @@ Rectangle {
     property real minimumValue: 0.0
     property real maximumValue: 1.0
 
+    // 用户拖动后发出，外部写回状态；value 保持声明式绑定
+    signal valueEdited(real value)
+
     // 进度条
     Rectangle {
         id: progress
@@ -77,7 +80,7 @@ Rectangle {
 
         function updateValue(x) {
             var ratio = Math.max(0, Math.min(1, x / parent.width))
-            slider.value = slider.minimumValue + ratio * (slider.maximumValue - slider.minimumValue)
+            slider.valueEdited(slider.minimumValue + ratio * (slider.maximumValue - slider.minimumValue))
         }
     }
 }

@@ -15,29 +15,43 @@ Interface* Interface::instance()
 
 // ==================== 页面导航 ====================
 
-int Interface::getPAGE_CONTROL() { return PAGE_CONTROL; }
 int Interface::getPAGE_SETTINGS() { return PAGE_SETTINGS; }
 int Interface::getPAGE_APP() { return PAGE_APP; }
 int Interface::getPAGE_AC() { return PAGE_AC; }
 int Interface::getPAGE_HOME() { return PAGE_HOME; }
-int Interface::getPAGE_MAIN() { return PAGE_MAIN; }
-
-int Interface::getPreviousPageIndex() const { return previousPageIndex; }
-void Interface::setPreviousPageIndex(int newPreviousPageIndex)
-{
-    if (previousPageIndex == newPreviousPageIndex) return;
-    previousPageIndex = newPreviousPageIndex;
-    emit previousPageIndexChanged();
-}
+int Interface::getPAGE_MAP() { return PAGE_MAP; }
+int Interface::getPAGE_MUSIC() { return PAGE_MUSIC; }
+int Interface::getPAGE_NAVI() { return PAGE_NAVI; }
+int Interface::getPAGE_CLUSTER() { return PAGE_CLUSTER; }
+int Interface::getPAGE_SECONDARY() { return PAGE_SECONDARY; }
+int Interface::getPAGE_SECONDARY_APPS() { return PAGE_SECONDARY_APPS; }
 
 int Interface::getPageIndex() const { return pageIndex; }
 void Interface::setPageIndex(int newPageIndex)
 {
     if (pageIndex == newPageIndex) return;
-    previousPageIndex = pageIndex;
+    m_pageStack.append(pageIndex);
     pageIndex = newPageIndex;
     emit pageIndexChanged();
-    emit previousPageIndexChanged();
+}
+
+// 返回上一页：便捷中心打开时先关它；历史栈弹出上一页；栈空回主页
+void Interface::back()
+{
+    if (m_controlCenterVisible) {
+        m_controlCenterVisible = false;
+        emit controlCenterVisibleChanged();
+        return;
+    }
+    if (!m_pageStack.isEmpty()) {
+        pageIndex = m_pageStack.takeLast();
+        emit pageIndexChanged();
+        return;
+    }
+    if (pageIndex != PAGE_HOME) {
+        pageIndex = PAGE_HOME;
+        emit pageIndexChanged();
+    }
 }
 
 // ==================== 空调 (AC) ====================
@@ -45,6 +59,7 @@ void Interface::setPageIndex(int newPageIndex)
 double Interface::getAcLeftTemp() const { return m_acLeftTemp; }
 void Interface::setAcLeftTemp(double temp)
 {
+    temp = qBound(16.0, temp, 32.0);
     if (qFuzzyCompare(m_acLeftTemp, temp)) return;
     m_acLeftTemp = temp;
     emit acLeftTempChanged();
@@ -53,6 +68,7 @@ void Interface::setAcLeftTemp(double temp)
 double Interface::getAcRightTemp() const { return m_acRightTemp; }
 void Interface::setAcRightTemp(double temp)
 {
+    temp = qBound(16.0, temp, 32.0);
     if (qFuzzyCompare(m_acRightTemp, temp)) return;
     m_acRightTemp = temp;
     emit acRightTempChanged();
@@ -61,6 +77,7 @@ void Interface::setAcRightTemp(double temp)
 int Interface::getAcFanSpeed() const { return m_acFanSpeed; }
 void Interface::setAcFanSpeed(int speed)
 {
+    speed = qBound(0, speed, 7);
     if (m_acFanSpeed == speed) return;
     m_acFanSpeed = speed;
     emit acFanSpeedChanged();

@@ -1,4 +1,5 @@
 import QtQuick
+import "../Components"
 
 Item {
     id: appPage
@@ -24,9 +25,9 @@ Item {
     Component.onCompleted: fadeIn.start()
 
     // ==================== 应用网格 ====================
-    // Figma: 1281×324, 2行×7列, 每个 94×141 (图标94×94 + 文字22px)
+    // Figma 1:1: Frame 151 [166,128]/[166,311] → 页面 [70,80]/[70,263]，7 列 pitch 197.8
     Item {
-        anchors.centerIn: parent
+        x: 70; y: 80
         width: 1281
         height: 324
 
@@ -55,8 +56,8 @@ Item {
         Grid {
             anchors.fill: parent
             columns: 7
-            rowSpacing: 40
-            columnSpacing: 40
+            rowSpacing: 42
+            columnSpacing: 104
 
             Repeater {
                 model: appModel
@@ -111,84 +112,9 @@ Item {
     }
 
     // ==================== 底部 AC 控制栏 ====================
-    Rectangle {
-        width: 1305
-        height: 123
+    ACQuickBar {
         anchors.bottom: parent.bottom
+        anchors.bottomMargin: 26
         anchors.horizontalCenter: parent.horizontalCenter
-        color: "#222A3B"
-        radius: 8
-
-        Row {
-            anchors.fill: parent
-            anchors.leftMargin: 20
-            anchors.rightMargin: 20
-
-            // 左温度
-            Item {
-                width: 200; height: parent.height
-
-                Row {
-                    anchors.centerIn: parent
-                    spacing: 4
-
-                    Text {
-                        text: Math.round(ui.acLeftTemp)
-                        color: "white"
-                        font.family: "Montserrat"
-                        font.pixelSize: 46
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                    Text {
-                        text: "º"
-                        color: "#9AFFFFFF"
-                        font.family: "Montserrat"
-                        font.pixelSize: 46
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                }
-            }
-
-            // 中间吹风按钮
-            Item {
-                width: parent.width - 400; height: parent.height
-
-                Image {
-                    anchors.centerIn: parent
-                    source: "qrc:/Images/ACBar/blow.png"
-                    width: 82; height: 82
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: ui.pageIndex = ui.PAGE_AC
-                }
-            }
-
-            // 右温度
-            Item {
-                width: 200; height: parent.height
-
-                Row {
-                    anchors.centerIn: parent
-                    spacing: 4
-
-                    Text {
-                        text: Math.round(ui.acRightTemp)
-                        color: "white"
-                        font.family: "Montserrat"
-                        font.pixelSize: 46
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                    Text {
-                        text: "º"
-                        color: "#9AFFFFFF"
-                        font.family: "Montserrat"
-                        font.pixelSize: 46
-                        anchors.verticalCenter: parent.verticalCenter
-                    }
-                }
-            }
-        }
     }
 }

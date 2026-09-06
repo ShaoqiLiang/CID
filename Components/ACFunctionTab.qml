@@ -1,34 +1,31 @@
 import QtQuick
 
-// 空调顶部功能 Tab 栏
-// Figma: 882×70, 背景 #2B354B, 圆角 43, 字号 24px, 字重 500
+// 空调顶部功能 Tab（设计稿 1:1，882×70 r=35，选中胶囊 208×70，文字按设计坐标摆放）
 Item {
     id: root
 
-    property var tabs: ["空调", "通风加热", "滤净", "空调设置"]
+    property var tabs: []
+    property var tabX: []   // 各文字左缘（相对组件，取自设计稿）
+    property var tabW: []   // 各文字宽
     property int currentIndex: 0
-    property string backgroundColor: "#2B354B"
-    property string selectedStartColor: "#43FFFF"
-    property string selectedEndColor: "#0978E9"
 
     Rectangle {
         anchors.fill: parent
-        color: root.backgroundColor
         radius: height / 2
+        color: "#2B364B"
     }
 
-    // 选中滑块
+    // 选中胶囊（居中于当前文字，208×70 渐变）
     Rectangle {
-        id: selectedRect
-        width: root.width / root.tabs.length
+        width: 208
         height: parent.height
         radius: height / 2
-        x: currentIndex * width
+        x: root.tabX[root.currentIndex] + root.tabW[root.currentIndex] / 2 - width / 2
 
         gradient: Gradient {
             orientation: Gradient.Horizontal
-            GradientStop { position: 0.0; color: root.selectedStartColor }
-            GradientStop { position: 1.0; color: root.selectedEndColor }
+            GradientStop { position: 0.0; color: "#43FFFF" }
+            GradientStop { position: 1.0; color: "#0978E9" }
         }
 
         Behavior on x {
@@ -36,33 +33,27 @@ Item {
         }
     }
 
-    // Tab 按钮
-    Row {
-        anchors.fill: parent
+    Repeater {
+        model: root.tabs.length
 
-        Repeater {
-            model: root.tabs.length
+        Item {
+            x: root.tabX[index] - 20
+            width: root.tabW[index] + 40
+            height: parent.height
 
-            Item {
-                width: root.width / root.tabs.length
-                height: parent.height
+            Text {
+                x: 20
+                y: 18
+                text: root.tabs[index]
+                color: "white"
+                font.family: "PingFang SC"
+                font.weight: Font.Medium
+                font.pixelSize: 24
+            }
 
-                Text {
-                    anchors.centerIn: parent
-                    text: root.tabs[index]
-                    color: "white"
-                    font.family: "PingFang SC"
-                    font.pixelSize: 24
-                    font.weight: Font.Medium
-                    font.bold: root.currentIndex === index
-                }
-
-                MouseArea {
-                    anchors.fill: parent
-                    onClicked: {
-                        root.currentIndex = index
-                    }
-                }
+            MouseArea {
+                anchors.fill: parent
+                onClicked: root.currentIndex = index
             }
         }
     }

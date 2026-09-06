@@ -2,6 +2,7 @@
 #define INTERFACE_H
 
 #include <QObject>
+#include <QList>
 #define INTERFACE (Interface::instance())
 
 class Interface : public QObject
@@ -13,28 +14,35 @@ public:
     static Interface* instance();
 
     // ==================== 页面导航 ====================
-    const static int PAGE_MAIN = 0;
     const static int PAGE_HOME = 1;
     const static int PAGE_AC = 2;
     const static int PAGE_APP = 3;
     const static int PAGE_SETTINGS = 4;
-    const static int PAGE_CONTROL = 5;
+    const static int PAGE_MAP = 6;
+    const static int PAGE_MUSIC = 7;
+    const static int PAGE_NAVI = 8;
+    const static int PAGE_CLUSTER = 9;
+    const static int PAGE_SECONDARY = 10;
+    const static int PAGE_SECONDARY_APPS = 11;
 
     int pageIndex;
-    int previousPageIndex;
 
     int getPageIndex() const;
     void setPageIndex(int newPageIndex);
 
-    int getPreviousPageIndex() const;
-    void setPreviousPageIndex(int newPreviousPageIndex);
+    // 返回上一页（页面历史栈）：栈空回主页；便捷中心打开时先关闭它
+    Q_INVOKABLE void back();
 
-    static int getPAGE_MAIN();
     static int getPAGE_HOME();
     static int getPAGE_AC();
     static int getPAGE_APP();
     static int getPAGE_SETTINGS();
-    static int getPAGE_CONTROL();
+    static int getPAGE_MAP();
+    static int getPAGE_MUSIC();
+    static int getPAGE_NAVI();
+    static int getPAGE_CLUSTER();
+    static int getPAGE_SECONDARY();
+    static int getPAGE_SECONDARY_APPS();
 
     // ==================== 空调 (AC) ====================
     double getAcLeftTemp() const;
@@ -160,7 +168,6 @@ public:
 signals:
     // 页面导航
     void pageIndexChanged();
-    void previousPageIndexChanged();
 
     // 空调
     void acLeftTempChanged();
@@ -214,21 +221,36 @@ signals:
     void weatherIconChanged();
     void weatherDescChanged();
 
+    // 展示数据
+    void cityChanged();
+    void outsideTempChanged();
+    void carTempChanged();
+    void airQualityChanged();
+    void safeDaysChanged();
+
+    // 便捷中心
+    void controlCenterVisibleChanged();
+
 private:
     // ==================== 页面导航 ====================
     Q_PROPERTY(int pageIndex READ getPageIndex WRITE setPageIndex NOTIFY pageIndexChanged FINAL)
-    Q_PROPERTY(int previousPageIndex READ getPreviousPageIndex WRITE setPreviousPageIndex NOTIFY previousPageIndexChanged FINAL)
-    Q_PROPERTY(int PAGE_MAIN READ getPAGE_MAIN CONSTANT FINAL)
     Q_PROPERTY(int PAGE_HOME READ getPAGE_HOME CONSTANT FINAL)
     Q_PROPERTY(int PAGE_AC READ getPAGE_AC CONSTANT FINAL)
     Q_PROPERTY(int PAGE_APP READ getPAGE_APP CONSTANT FINAL)
     Q_PROPERTY(int PAGE_SETTINGS READ getPAGE_SETTINGS CONSTANT FINAL)
-    Q_PROPERTY(int PAGE_CONTROL READ getPAGE_CONTROL CONSTANT FINAL)
+    Q_PROPERTY(bool controlCenterVisible MEMBER m_controlCenterVisible NOTIFY controlCenterVisibleChanged FINAL)
+    Q_PROPERTY(int PAGE_MAP READ getPAGE_MAP CONSTANT FINAL)
+    Q_PROPERTY(int PAGE_MUSIC READ getPAGE_MUSIC CONSTANT FINAL)
+    Q_PROPERTY(int PAGE_NAVI READ getPAGE_NAVI CONSTANT FINAL)
+    Q_PROPERTY(int PAGE_CLUSTER READ getPAGE_CLUSTER CONSTANT FINAL)
+    Q_PROPERTY(int PAGE_SECONDARY READ getPAGE_SECONDARY CONSTANT FINAL)
+    Q_PROPERTY(int PAGE_SECONDARY_APPS READ getPAGE_SECONDARY_APPS CONSTANT FINAL)
 
     // ==================== 空调 ====================
-    Q_PROPERTY(double acLeftTemp READ getAcLeftTemp WRITE setAcLeftTemp NOTIFY acLeftTempChanged FINAL)
-    Q_PROPERTY(double acRightTemp READ getAcRightTemp WRITE setAcRightTemp NOTIFY acRightTempChanged FINAL)
-    Q_PROPERTY(int acFanSpeed READ getAcFanSpeed WRITE setAcFanSpeed NOTIFY acFanSpeedChanged FINAL)
+    // MEMBER+WRITE: 读走成员、写走 setter（钳制在 setter 内），setter 必须自行 emit
+    Q_PROPERTY(double acLeftTemp MEMBER m_acLeftTemp WRITE setAcLeftTemp NOTIFY acLeftTempChanged FINAL)
+    Q_PROPERTY(double acRightTemp MEMBER m_acRightTemp WRITE setAcRightTemp NOTIFY acRightTempChanged FINAL)
+    Q_PROPERTY(int acFanSpeed MEMBER m_acFanSpeed WRITE setAcFanSpeed NOTIFY acFanSpeedChanged FINAL)
     Q_PROPERTY(int acMode READ getAcMode WRITE setAcMode NOTIFY acModeChanged FINAL)
     Q_PROPERTY(bool acInnerCirculation READ getAcInnerCirculation WRITE setAcInnerCirculation NOTIFY acInnerCirculationChanged FINAL)
     Q_PROPERTY(bool acDefrost READ getAcDefrost WRITE setAcDefrost NOTIFY acDefrostChanged FINAL)
@@ -277,10 +299,17 @@ private:
     Q_PROPERTY(QString weatherIcon READ getWeatherIcon WRITE setWeatherIcon NOTIFY weatherIconChanged FINAL)
     Q_PROPERTY(QString weatherDesc READ getWeatherDesc WRITE setWeatherDesc NOTIFY weatherDescChanged FINAL)
 
+    // ==================== 展示数据（设计稿 mockup 值） ====================
+    Q_PROPERTY(QString city MEMBER m_city NOTIFY cityChanged FINAL)
+    Q_PROPERTY(int outsideTemp MEMBER m_outsideTemp NOTIFY outsideTempChanged FINAL)
+    Q_PROPERTY(int carTemp MEMBER m_carTemp NOTIFY carTempChanged FINAL)
+    Q_PROPERTY(QString airQuality MEMBER m_airQuality NOTIFY airQualityChanged FINAL)
+    Q_PROPERTY(int safeDays MEMBER m_safeDays NOTIFY safeDaysChanged FINAL)
+
     // ==================== 成员变量 ====================
     // 空调
-    double m_acLeftTemp = 24.0;
-    double m_acRightTemp = 24.0;
+    double m_acLeftTemp = 20.0;
+    double m_acRightTemp = 20.0;
     int m_acFanSpeed = 3;
     int m_acMode = 0;
     bool m_acInnerCirculation = false;
@@ -288,15 +317,15 @@ private:
     bool m_acOn = true;
 
     // 媒体
-    bool m_mediaPlaying = false;
-    QString m_mediaTitle;
-    QString m_mediaArtist;
-    QString m_mediaAlbumArt;
+    bool m_mediaPlaying = true;
+    QString m_mediaTitle = "Something Just Like This";
+    QString m_mediaArtist = "The Chainsmokers";
+    QString m_mediaAlbumArt = "qrc:/Images/Home/music_album.png";
     int m_mediaSource = 0;
 
     // 车辆
-    double m_vehicleMileage = 0;
-    int m_vehicleRange = 0;
+    double m_vehicleMileage = 8500;
+    int m_vehicleRange = 245;
     int m_vehicleGear = 0; // P
     int m_vehicleCondition = 1;
     int m_vehicleSpeed = 0;
@@ -326,9 +355,20 @@ private:
     bool m_navActive = false;
 
     // 天气
-    int m_weatherTemp = 26;
+    int m_weatherTemp = 32;
     QString m_weatherIcon;
-    QString m_weatherDesc;
+    QString m_weatherDesc = "晴转多云";
+
+    // 展示数据（设计稿 mockup 值）
+    QString m_city = "南京市 雨花台区";
+    int m_outsideTemp = 12;
+    int m_carTemp = 20;
+    QString m_airQuality = "优";
+    int m_safeDays = 267;
+
+    // 页面历史栈 + 便捷中心
+    QList<int> m_pageStack;
+    bool m_controlCenterVisible = false;
 };
 
 #endif // INTERFACE_H

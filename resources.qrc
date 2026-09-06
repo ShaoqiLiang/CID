@@ -1,11 +1,6 @@
 <RCC>
     <qresource prefix="/">
         <file>Images/Home/vehicle.png</file>
-        <file>HMI/Home.qml</file>
-        <file>HMI/AC.qml</file>
-        <file>HMI/App.qml</file>
-        <file>HMI/ControlCenter.qml</file>
-        <file>HMI/Settings.qml</file>
         <file>Images/AC/fog.png</file>
         <file>Images/AC/function_off.png</file>
         <file>Images/AC/function_on.png</file>
@@ -130,7 +125,43 @@
         <file>Images/StatusBar/position.png</file>
         <file>Images/StatusBar/signal.png</file>
         <file>Images/StatusBar/status_bar_background.png</file>
-        <file>Images/Home/map2.png</file>
-        <file>Images/Home/music2.png</file>
+        <file>Images/Exported/Document_01_Ellipse_2.jpg</file>
+        <file>Images/Exported/Document_02_Rectangle_54.jpg</file>
+        <file>Images/Exported/Document_03_image_3.png</file>
+        <file>Images/Exported/Document_04_11_1.png</file>
+        <file>Images/Exported/Document_05_image_2.png</file>
+        <file>Images/Exported/Document_06_Rectangle_79.jpg</file>
+        <file>Images/Exported/Document_07_image_1.png</file>
+        <file>Images/Exported/Document_08_image_7.png</file>
+        <file>Images/Exported/Document_09_Rectangle_2067.jpg</file>
+        <file>Images/Exported/Document_10_Rectangle_2068.jpg</file>
+        <file>Images/Exported/Document_11_Rectangle_2066.jpg</file>
+        <file>Images/Exported/Document_12_Rectangle_2077.jpg</file>
+        <file>Images/Exported/Document_13_Rectangle_2077.jpg</file>
+        <file>Images/Exported/Document_14_Rectangle_2077.jpg</file>
+        <file>Images/Exported/Document_15_Rectangle_2077.jpg</file>
+        <file>Images/Exported/Document_16_Rectangle_2077.jpg</file>
+        <file>Images/Exported/Document_17_Rectangle_2077.jpg</file>
+        <file>Images/Exported/Document_18_Rectangle_2077.jpg</file>
+        <file>Images/Exported/Document_19_Rectangle_2077.jpg</file>
+        <file>Images/Exported/Document_20_image_11.png</file>
+        <file>Images/Exported/Document_21_image_12.png</file>
+        <file>Images/Exported/Document_22_截屏2022-06-01-15.12_1.png</file>
+        <file>Images/Exported/Document_23_image_4.png</file>
+        <file>Images/Exported/Document_24_image_8.png</file>
+        <file>Images/Exported/Document_25_Rectangle_2061.png</file>
+        <file>Images/Exported/Document_26_Rectangle_4.png</file>
+        <file>Images/Exported/Document_27_pngfind_1.png</file>
+        <file>Images/Exported/Document_28_Noise.png</file>
+        <file>Images/Exported/Document_29_Frame_13_2.png</file>
+        <file>Images/Exported/Document_30_image_9.png</file>
+        <file>Images/Exported/Document_31_截屏2022-06-01_21_1.png</file>
+        <file>Images/Exported/Document_32_09676a061d1df143b16bd7375af66b.jpg</file>
+        <file>Images/Exported/Document_33_a9489f1d01df1c094fcf1e88f9f258.png</file>
+        <file>Images/Exported/Document_34_涛泽视觉设计.png</file>
+        <file>Images/Exported/Document_35_封面.png</file>
+        <file>Images/Exported/Document_36_位图_1.png</file>
+        <file>Images/Exported/Document_37_image_9.png</file>
+        <file>Images/Exported/Document_38_IMG_6721_1.jpg</file>
     </qresource>
 </RCC>

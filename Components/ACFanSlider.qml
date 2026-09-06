@@ -1,60 +1,47 @@
 import QtQuick
-import QtQuick.Controls
 
-// 风量滑块组件
-// Figma: 723×71, 圆角 36, 背景 #222A3B
-// 进度条: 蓝→青渐变
+// 风量滑条（设计稿 1:1，535×19：轨道 #5C626C→#343C4A，滑块 #0532FB→#52E6FB）
 Item {
     id: root
 
-    property int minValue: 0
+    property int value: 4
     property int maxValue: 7
-    property int value: 3
-    property string startColor: "#0532FB"
-    property string endColor: "#52E6FB"
-    property string backgroundColor: "#222A3B"
 
-    // 背景
+    // 组件不自行改状态，由外部写回（保持 value 可声明式绑定）
+    signal valueEdited(int newValue)
+
     Rectangle {
-        id: bgRect
         anchors.fill: parent
-        color: root.backgroundColor
         radius: height / 2
+        gradient: Gradient {
+            orientation: Gradient.Horizontal
+            GradientStop { position: 0.0; color: "#5C626C" }
+            GradientStop { position: 1.0; color: "#343C4A" }
+        }
+    }
 
-        // 进度条
-        Rectangle {
-            id: progressRect
-            width: getWidth()
-            height: parent.height
-            radius: height / 2
+    Rectangle {
+        width: root.maxValue > 0 ? parent.width * root.value / root.maxValue : 0
+        height: parent.height
+        radius: height / 2
+        gradient: Gradient {
+            orientation: Gradient.Horizontal
+            GradientStop { position: 0.0; color: "#0532FB" }
+            GradientStop { position: 1.0; color: "#52E6FB" }
+        }
+    }
 
-            gradient: Gradient {
-                orientation: Gradient.Horizontal
-                GradientStop { position: 0.0; color: root.startColor }
-                GradientStop { position: 1.0; color: root.endColor }
-            }
+    MouseArea {
+        anchors.fill: parent
+        preventStealing: true
 
-            Behavior on width {
-                NumberAnimation { duration: 150 }
-            }
-
-            function getWidth() {
-                if (root.maxValue === 0) return 0
-                var step = bgRect.width / root.maxValue
-                var w = root.value * step
-                return Math.min(w, bgRect.width)
-            }
+        onClicked: (mouse) => root.updateValue(mouse.x)
+        onPositionChanged: (mouse) => {
+            if (pressed) root.updateValue(mouse.x)
         }
 
-        // 滑块交互
-        MouseArea {
-            anchors.fill: parent
-            onClicked: (mouse) => {
-                var step = bgRect.width / root.maxValue
-                var newValue = Math.round(mouse.x / step)
-                newValue = Math.max(root.minValue, Math.min(root.maxValue, newValue))
-                root.value = newValue
-            }
+        function updateValue(x) {
+            root.valueEdited(Math.max(0, Math.min(root.maxValue, Math.round(x / parent.width * root.maxValue))))
         }
     }
 }

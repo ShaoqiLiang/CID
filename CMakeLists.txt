@@ -25,12 +25,23 @@ qt_add_qml_module(appCID
         HMI/ControlCenter.qml
         HMI/Home.qml
         HMI/Settings.qml
+        HMI/Map.qml
+        HMI/MusicList.qml
+        HMI/MapNavi.qml
+        HMI/Cluster.qml
+        HMI/Secondary.qml
+        HMI/SecondaryApps.qml
         Components/StatusBar.qml
         Components/LeftNav.qml
         Components/ACFunctionTab.qml
         Components/ACTemperatureWheel.qml
         Components/ACFanSlider.qml
-        Components/ACControlBar.qml
+        Components/ACQuickBar.qml
+        Components/GlowEllipse.qml
+        Components/Slider.qml
+        Components/IconSwitch.qml
+        Components/QuickSlider.qml
+        Components/SwipeArea.qml
 
     SOURCES
         Interface/Interface.h
